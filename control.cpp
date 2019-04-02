@@ -10,11 +10,11 @@ CONTROL::CONTROL()
 
 	back = new BACK;
 
-	double tempEx, tempEy;
+	double tempEx =0, tempEy=0;
 
 	for (int i = 0; i < ENEMY_NUM; ++i)
 	{
-		GetHosePosition(rand() % HOSE_MAX_NUM, &tempEx, &tempEy);
+		//GetHosePosition(rand() % HOSE_MAX_NUM, &tempEx, &tempEy);
 		enemy[i] = new ENEMY(0, 1, 0, 1, 100, 250, 1, 500, tempEx, tempEy, 1, 1, 1);
 	}
 }
@@ -75,7 +75,7 @@ bool CONTROL::CircleCollision(double c1, double c2, double cx1, double cx2, doub
 
 bool CONTROL::SquareCollision(double x1, double y1, double x2, double y2)
 {
-
+	return true;
 }
 
 /*
@@ -107,7 +107,7 @@ void CONTROL::CollisionAll()
 						player->SetShotFlag(i, false);
 
 					}
-				}
+				}*/
 			}
 		}
 	}
