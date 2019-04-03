@@ -10,6 +10,8 @@ CONTROL::CONTROL()
 
 	back = new BACK;
 
+	ui = new UI;
+
 	double tempEx =0, tempEy=0;
 
 	for (int i = 0; i < ENEMY_NUM; ++i)
@@ -41,6 +43,8 @@ void CONTROL::All()
 			}
 		}
 	}
+
+	ui->All();
 
 	//“–‚½‚è”»’è
 	CollisionAll();
