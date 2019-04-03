@@ -34,7 +34,7 @@
 //-“–‚½‚è”»’èİ’è-
 //”¼Œa’è‹`
 #define PLAYER_COLLISION 6
-#define ENEMY1_COLLISION 14
+#define ENEMY1_COLLISION 20
 
 #define PSHOT_COLLISION 3
 #define ESHOT0_COLLISION 10

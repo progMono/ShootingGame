@@ -71,7 +71,6 @@ void BACK::GetHosePosition(int index, double *x,double *y)
 {
 	*x = this->hose[index].x + this->hose[index].imageWidth / 2;
 	*y = this->hose[index].y + 60;
-	printfDx("Ghose[%d]x = %f\n", index, hose[index].x);
 }
 
 /**

@@ -164,7 +164,7 @@ void PLAYER::Shot()
 * param *x : 代入する x 座標ポインタ
 * param *y : 代入する y 座標ポインタ
 */
-void PLAYER::GetPosition(double *x, double *y)
+void PLAYER::getPosition(double *x, double *y)
 {
 	*x = this->x;
 	*y = this->y;
@@ -178,7 +178,7 @@ void PLAYER::GetPosition(double *x, double *y)
 * param *y : 代入する y 座標ポインタ
 * return : 弾が存在しているなら true, していないなら false
 */
-bool PLAYER::GetShotPosition(int index, double *x, double *y)
+bool PLAYER::getShotPosition(int index, double *x, double *y)
 {
 	if (shot[index].flag)
 	{
@@ -190,6 +190,11 @@ bool PLAYER::GetShotPosition(int index, double *x, double *y)
 	{
 		return false;
 	}
+}
+
+void PLAYER::setShotFlag(int index, bool flag)
+{
+	shot[index].flag = flag;
 }
 
 /*

@@ -38,10 +38,10 @@ private:
 	void Shot();
 public:
 	PLAYER();
-	void GetPosition(double *x, double *y);
-	bool GetShotPosition(int index, double *x, double *y);
+	void getPosition(double *x, double *y);
+	bool getShotPosition(int index, double *x, double *y);
+	void setShotFlag(int index, bool flag);
 	/*
-	void SetShotFlag(int index, bool flag);
 	void SetDamageFlag();
 	bool GetDamageFlag();
 	*/
