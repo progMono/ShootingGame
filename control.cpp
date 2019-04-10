@@ -26,7 +26,7 @@ CONTROL::CONTROL()
 void CONTROL::All()
 {
 	//•`‰æ—Ìˆæ‚ğw’è
-	SetDrawArea(MARGIN, MARGIN, 640 - MARGIN, 480 - MARGIN);
+	SetDrawArea(UI_WIDTH, MARGIN, 640 - MARGIN, 480 - UI_HEIGHT);
 
 	back->All();
 
@@ -44,12 +44,18 @@ void CONTROL::All()
 		}
 	}
 
+	SetDrawArea(MARGIN, MARGIN, UI_WIDTH, SCREEN_HEIGHT - MARGIN);
 	ui->All();
 
 	//“–‚½‚è”»’è
 	CollisionAll();
 
 	++g_count;
+}
+
+double CONTROL::getBattery()
+{
+	return player->battery;
 }
 
 /*

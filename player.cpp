@@ -17,14 +17,16 @@ PLAYER::PLAYER()
 	width = 34;
 	height = 41;
 
-	x = 296;
-	y = 400;
+	x = 396 - width / 2;
+	y = 300 + height / 2;
 
 	xcount = 0, ycount = 0;
 
 	ix = 0, iy = 0, result = 0;
 
 	dcount = 0;
+
+	battery = INIT_BATTERY;
 
 	existFlag = true;
 	damageflag = false;
@@ -69,10 +71,10 @@ void PLAYER::Move()
 */
 void PLAYER::Save()
 {
-	if (x < width / 2 + MARGIN) { x = width / 2 + MARGIN; }
+	if (x < width / 2 + UI_WIDTH) { x = width / 2 + UI_WIDTH; }
 	if (x > SCREEN_WIDTH - width / 2 - MARGIN) { x = SCREEN_WIDTH - width / 2 - MARGIN; }
-	if (y < height / 2 + 160) { y = height / 2 + 160; }
-	if (y > SCREEN_HEIGHT - height / 2 - MARGIN) { y = SCREEN_HEIGHT - height / 2 - MARGIN; }
+	if (y < height / 2 + 80) { y = height / 2 + 80; }
+	if (y > SCREEN_HEIGHT - height / 2 - UI_HEIGHT) { y = SCREEN_HEIGHT - height / 2 - UI_HEIGHT; }
 }
 
 /*
@@ -141,6 +143,7 @@ void PLAYER::Shot()
 					shot[i].flag = true;
 					shot[i].x = x;
 					shot[i].y = y;
+					disBattery(0.5);
 					break;
 				}
 			}
@@ -168,6 +171,14 @@ void PLAYER::getPosition(double *x, double *y)
 {
 	*x = this->x;
 	*y = this->y;
+}
+
+void PLAYER::disBattery(double value)
+{
+	if (battery > 0)
+		battery -= value;
+	if (battery < 0)
+		battery = 0;
 }
 
 /*
@@ -207,6 +218,7 @@ void PLAYER::All()
 	{
 		Move();
 	}
+	disBattery(0.5);
 	Shot();
 	Draw();
 

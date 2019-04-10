@@ -20,6 +20,7 @@ private:
 
 	//プレイヤーのライフ
 	int life;
+	
 	bool damageflag;
 	bool endflag;
 	//ダメージ中のカウント
@@ -31,6 +32,8 @@ private:
 	Shot shot[PSHOT_NUM];
 	//カウント
 	int count;
+public:
+	double battery;
 private:
 	void Move();
 	void Save();
@@ -39,6 +42,7 @@ private:
 public:
 	PLAYER();
 	void getPosition(double *x, double *y);
+	void disBattery(double value);
 	bool getShotPosition(int index, double *x, double *y);
 	void setShotFlag(int index, bool flag);
 	/*

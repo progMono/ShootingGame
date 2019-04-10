@@ -6,7 +6,8 @@ BACK::BACK()
 {
 	gh = LoadGraph("image/Back/back_factory.png");
 
-	x = y = 0;
+	x = 0;
+	y = -UI_HEIGHT;
 
 	for (int i = 0; i < HOSE_MAX_NUM; i++)
 	{

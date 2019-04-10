@@ -11,7 +11,9 @@
 //スクロールスピード
 #define SCROLL_SPEED 2
 #define HOSE_MOVE_SPEED 2
-#define MARGIN 10
+#define UI_WIDTH 100
+#define UI_HEIGHT 75
+#define MARGIN 5
 //ホース
 #define HOSE_MAX_NUM 3
 
@@ -24,6 +26,8 @@
 //弾の弾数とスピード
 #define PSHOT_NUM 20
 #define PSHOT_SPEED 8
+//バッテリー初期値
+#define INIT_BATTERY 100
 
 //-敵の設定-
 //数
