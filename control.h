@@ -32,7 +32,6 @@ public:
 	~CONTROL();
 	bool CircleCollision(double c1, double c2, double cx1, double cx2, double cy1, double cy2);
 	bool SquareCollision(double x1, double y1, double x2, double y2);
-	double getBattery();
 	//void GetHosePosition(int index, double *x, double *y);
 	void CollisionAll();
 	void All();

@@ -26,6 +26,8 @@
 //弾の弾数とスピード
 #define PSHOT_NUM 20
 #define PSHOT_SPEED 8
+//HP初期値
+#define INIT_LIFE 3
 //バッテリー初期値
 #define INIT_BATTERY 100
 

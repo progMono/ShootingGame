@@ -10,7 +10,7 @@ CONTROL::CONTROL()
 
 	back = new BACK;
 
-	ui = new UI;
+	ui = new UI();
 
 	double tempEx =0, tempEy=0;
 
@@ -51,11 +51,6 @@ void CONTROL::All()
 	CollisionAll();
 
 	++g_count;
-}
-
-double CONTROL::getBattery()
-{
-	return player->battery;
 }
 
 /*
@@ -122,6 +117,7 @@ void CONTROL::CollisionAll()
 			}
 		}
 	}
+	ui->setUI(player->getLife(), player->getBattery());
 }
 
 /*

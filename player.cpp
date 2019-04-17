@@ -28,6 +28,8 @@ PLAYER::PLAYER()
 
 	battery = INIT_BATTERY;
 
+	mpix = 0;
+
 	existFlag = true;
 	damageflag = false;
 
@@ -53,15 +55,22 @@ PLAYER::PLAYER()
 */
 void PLAYER::Move()
 {
-	if (CheckHitKey(KEY_INPUT_LEFT) == 1) { x -= PLAYER_MOVE_SPEED; }
-	if (CheckHitKey(KEY_INPUT_RIGHT) == 1) { x += PLAYER_MOVE_SPEED; }
-	if (CheckHitKey(KEY_INPUT_UP) == 1) { y -= PLAYER_MOVE_SPEED; }
-	if (CheckHitKey(KEY_INPUT_DOWN) == 1) { y += PLAYER_MOVE_SPEED; }
+	batteryflag = false;
+	if (CheckHitKey(KEY_INPUT_LEFT) == 1) { x -= PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_RIGHT) == 1) { x += PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_UP) == 1) { y -= PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_DOWN) == 1) { y += PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
 
 	ix = 60; //‰æ–Ê x=n*ix ‚²‚Æ
 	if ((int)x % ix >= 0 && (int)x % ix < ix / 3) { result = 0; }
 	if ((int)x % ix >= ix / 3 && (int)x % ix < ix * 2 / 3) { result = 1; }
 	if ((int)x % ix >= ix * 2 / 3 && (int)x % ix < ix) { result = 2; }
+
+	if (mpix > 100)
+	{
+		disBattery(0.0000001);
+		mpix = 0;
+	}
 
 	Save();
 }
@@ -173,12 +182,25 @@ void PLAYER::getPosition(double *x, double *y)
 	*y = this->y;
 }
 
+double PLAYER::getLife()
+{
+	return life;
+}
+
+double PLAYER::getBattery()
+{
+	return battery;
+}
+
 void PLAYER::disBattery(double value)
 {
-	if (battery > 0)
-		battery -= value;
-	if (battery < 0)
-		battery = 0;
+	if (batteryflag)
+	{
+		if (battery > 0)
+			battery -= value;
+		else if (battery <= 0)
+			battery = 0;
+	}
 }
 
 /*

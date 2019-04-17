@@ -16,13 +16,14 @@ private:
 	//横方向と縦方向のカウント数
 	int xcount, ycount;
 	//添え字用変数
-	int ix, iy, result;
+	int ix, iy, result,mpix;
 
 	//プレイヤーのライフ
 	int life;
 	
 	bool damageflag;
 	bool endflag;
+	bool batteryflag;
 	//ダメージ中のカウント
 	int dcount;
 
@@ -42,6 +43,8 @@ private:
 public:
 	PLAYER();
 	void getPosition(double *x, double *y);
+	double getLife();
+	double getBattery();
 	void disBattery(double value);
 	bool getShotPosition(int index, double *x, double *y);
 	void setShotFlag(int index, bool flag);
