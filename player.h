@@ -12,7 +12,7 @@ private:
 	//グラフィックハンドル
 	int gh[3];
 	//移動係数
-	float move;
+	double move_speed;
 	//横方向と縦方向のカウント数
 	int xcount, ycount;
 	//添え字用変数
@@ -31,9 +31,11 @@ private:
 	bool existFlag;
 	//弾
 	Shot shot[PSHOT_NUM];
+
+	int s_power;
 	//カウント
 	int count;
-public:
+
 	double battery;
 private:
 	void Move();
@@ -48,6 +50,7 @@ public:
 	void disBattery(double value);
 	bool getShotPosition(int index, double *x, double *y);
 	void setShotFlag(int index, bool flag);
+	void setBatteryPower();
 	/*
 	void SetDamageFlag();
 	bool GetDamageFlag();

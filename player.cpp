@@ -26,6 +26,8 @@ PLAYER::PLAYER()
 
 	dcount = 0;
 
+	move_speed = PLAYER_MOVE_SPEED;
+	
 	battery = INIT_BATTERY;
 
 	mpix = 0;
@@ -47,6 +49,8 @@ PLAYER::PLAYER()
 		shot[i].height = h;
 	}
 
+	s_power = 6;
+
 	count = 0;
 }
 
@@ -56,19 +60,19 @@ PLAYER::PLAYER()
 void PLAYER::Move()
 {
 	batteryflag = false;
-	if (CheckHitKey(KEY_INPUT_LEFT) == 1) { x -= PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
-	if (CheckHitKey(KEY_INPUT_RIGHT) == 1) { x += PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
-	if (CheckHitKey(KEY_INPUT_UP) == 1) { y -= PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
-	if (CheckHitKey(KEY_INPUT_DOWN) == 1) { y += PLAYER_MOVE_SPEED; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_LEFT) == 1) { x -= move_speed; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_RIGHT) == 1) { x += move_speed; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_UP) == 1) { y -= move_speed; batteryflag = true; mpix++; }
+	if (CheckHitKey(KEY_INPUT_DOWN) == 1) { y += move_speed; batteryflag = true; mpix++; }
 
 	ix = 60; //画面 x=n*ix ごと
 	if ((int)x % ix >= 0 && (int)x % ix < ix / 3) { result = 0; }
 	if ((int)x % ix >= ix / 3 && (int)x % ix < ix * 2 / 3) { result = 1; }
 	if ((int)x % ix >= ix * 2 / 3 && (int)x % ix < ix) { result = 2; }
 
-	if (mpix > 100)
+	if (mpix > 50)
 	{
-		disBattery(0.0000001);
+		disBattery(1);
 		mpix = 0;
 	}
 
@@ -143,7 +147,7 @@ void PLAYER::Shot()
 	if (!damageflag)
 	{
 		//キーが押されてて，かつ，6ループに一回発射
-		if (CheckHitKey(KEY_INPUT_Z) == 1 && count % 6 == 0)
+		if (CheckHitKey(KEY_INPUT_Z) == 1 && count % s_power == 0)
 		{
 			for (int i = 0; i < PSHOT_NUM; ++i)
 			{
@@ -230,6 +234,44 @@ void PLAYER::setShotFlag(int index, bool flag)
 	shot[index].flag = flag;
 }
 
+void PLAYER::setBatteryPower()
+{
+	if (battery > 90) {
+		move_speed = PLAYER_MOVE_SPEED;
+		s_power = 6;
+	}
+	else if (battery > 80) {
+		move_speed = PLAYER_MOVE_SPEED * 9 / 10;
+	}
+	else if (battery > 70) {
+		move_speed = PLAYER_MOVE_SPEED * 8 / 10;
+		s_power = 10;
+	}
+	else if (battery > 60) {
+		move_speed = PLAYER_MOVE_SPEED * 7 / 10;
+	}
+	else if (battery > 50) {
+		move_speed = PLAYER_MOVE_SPEED * 6 / 10;
+		s_power = 14;
+	}
+	else if (battery > 40) {
+		move_speed = PLAYER_MOVE_SPEED * 5 / 10;
+	}
+	else if (battery > 30) {
+		move_speed = PLAYER_MOVE_SPEED * 4 / 10;
+		s_power = 18;
+	}
+	else if (battery > 20) {
+		move_speed = PLAYER_MOVE_SPEED * 3 / 10;
+	}
+	else if (battery > 10) {
+		move_speed = PLAYER_MOVE_SPEED * 2 / 10;
+		s_power = 22;
+	}
+	else if (battery > 0) {
+		move_speed = PLAYER_MOVE_SPEED * 1.1 / 10;
+	}
+}
 /*
 * PLAYER クラスの管理関数
 */
@@ -240,7 +282,7 @@ void PLAYER::All()
 	{
 		Move();
 	}
-	disBattery(0.5);
+	setBatteryPower();
 	Shot();
 	Draw();
 
