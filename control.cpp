@@ -10,12 +10,13 @@ CONTROL::CONTROL()
 
 	back = new BACK;
 
+	ui = new UI();
+
 	double tempEx =0, tempEy=0;
 
 	for (int i = 0; i < ENEMY_NUM; ++i)
 	{
-		//GetHosePosition(rand() % HOSE_MAX_NUM, &tempEx, &tempEy);
-		enemy[i] = new ENEMY(0, 1, 0, 1, 100, 250, 1, 500, tempEx, tempEy, 1, 1, 1);
+		enemy[i] = new ENEMY(0, 1, 0, 1, 100, 250, 1, 500, 0, 0, 1, 1, 1);
 	}
 }
 
@@ -25,7 +26,7 @@ CONTROL::CONTROL()
 void CONTROL::All()
 {
 	//描画領域を指定
-	SetDrawArea(MARGIN, MARGIN, 640 - MARGIN, 480 - MARGIN);
+	SetDrawArea(UI_WIDTH, MARGIN, 640 - MARGIN, 480 - UI_HEIGHT);
 
 	back->All();
 
@@ -42,6 +43,12 @@ void CONTROL::All()
 			}
 		}
 	}
+
+	SetDrawArea(MARGIN, MARGIN, UI_WIDTH, SCREEN_HEIGHT - MARGIN);
+	ui->All();
+
+	//当たり判定
+	CollisionAll();
 
 	++g_count;
 }
@@ -91,26 +98,26 @@ void CONTROL::CollisionAll()
 	//操作キャラの弾と敵の当たり判定
 	for (int i = 0; i < PSHOT_NUM; ++i)
 	{
-		if (player->GetShotPosition(i, &px, &py))
+		if (player->getShotPosition(i, &px, &py))
 		{
 			for (int s = 0; s < ENEMY_NUM; ++s)
 			{ //敵クラスのポインタがNULLじゃない、かつdeadflagがfalse(死んでない＆帰還してない)
-				/*if (enemy[s] != NULL && !enemy[s]->GetDeadFlag())
+				if (enemy[s] != NULL && !enemy[s]->getDeadFlag())
 				{
-					enemy[s]->GetPosition(&ex, &ey);
+					enemy[s]->getPosition(&ex, &ey);
 					//当たり判定
 					if (CircleCollision(PSHOT_COLLISION, ENEMY1_COLLISION, px, ex, py, ey))
 					{
 						//当たっていれば，deadflag を立てる
-						enemy[s]->SetDeadFlag();
+						enemy[s]->setDeadFlag();
 						//当たった弾のフラグを戻す
-						player->SetShotFlag(i, false);
-
+						player->setShotFlag(i, false);
 					}
-				}*/
+				}
 			}
 		}
 	}
+	ui->setUI(player->getLife(), player->getBattery());
 }
 
 /*

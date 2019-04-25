@@ -28,7 +28,6 @@ ENEMY::ENEMY(int type, int s_type, int m_pattern, int s_pattern,
 	//座標セット
 	this->x = x;
 	this->y = y;
-	adPosition();
 
 	//出現，停止，発射，帰還時間セット
 	this->in_time = in_time;
@@ -43,7 +42,8 @@ ENEMY::ENEMY(int type, int s_type, int m_pattern, int s_pattern,
 	//敵画像読み込み
 	if (type == 0)
 	{
-		LoadDivGraph("image/Enemy/Figure/enemy_Eye.png", 3, 1, 3, 25, 25, &gh);
+		//LoadDivGraph("image/Enemy/Figure/enemy_Eye.png", 3, 1, 3, 25, 25, &gh);
+		gh = LoadGraph("image/Trash/trash.png");
 	}
 
 	//弾画像読み込み
@@ -85,13 +85,6 @@ ENEMY::ENEMY(int type, int s_type, int m_pattern, int s_pattern,
 	s_flag = false;
 }
 
-void ENEMY::adPosition()
-{
-	//座標セット
-	//this->x -= width / 2;
-	//this->y -= height / 2;
-}
-
 void ENEMY::Move()
 {
 	if (!deadflag)
@@ -102,7 +95,6 @@ void ENEMY::Move()
 			if (in_time == g_count)
 			{
 				back->GetHosePosition(rand() % HOSE_MAX_NUM, &x, &y);
-				adPosition();
 			}			
 			if (in_time < g_count && g_count < stop_time) { y += 2; }
 			else if (out_time < g_count) { y -= 2; }
@@ -125,13 +117,34 @@ bool ENEMY::OutCheck()
 	else { return false; }
 }
 
+void ENEMY::getPosition(double *x, double *y)
+{
+	*x = this->x;
+	*y = this->y;
+}
+
+void ENEMY::setShotFlag()
+{
+	
+}
+
+bool ENEMY::getDeadFlag()
+{
+	return deadflag;
+}
+
+void ENEMY::setDeadFlag()
+{
+	deadflag = true;
+}
+
 void ENEMY::Draw()
 {
 	if (in_time < g_count)
 	{
 		if (!deadflag)
 		{
-			DrawGraph(x, y, gh, TRUE);
+			DrawGraph(x - width / 2, y - height / 2, gh, TRUE);
 		}
 	}	
 }

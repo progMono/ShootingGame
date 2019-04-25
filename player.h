@@ -12,16 +12,18 @@ private:
 	//グラフィックハンドル
 	int gh[3];
 	//移動係数
-	float move;
+	double move_speed;
 	//横方向と縦方向のカウント数
 	int xcount, ycount;
 	//添え字用変数
-	int ix, iy, result;
+	int ix, iy, result,mpix;
 
 	//プレイヤーのライフ
 	int life;
+	
 	bool damageflag;
 	bool endflag;
+	bool batteryflag;
 	//ダメージ中のカウント
 	int dcount;
 
@@ -29,8 +31,12 @@ private:
 	bool existFlag;
 	//弾
 	Shot shot[PSHOT_NUM];
+
+	int s_power;
 	//カウント
 	int count;
+
+	double battery;
 private:
 	void Move();
 	void Save();
@@ -38,10 +44,14 @@ private:
 	void Shot();
 public:
 	PLAYER();
-	void GetPosition(double *x, double *y);
-	bool GetShotPosition(int index, double *x, double *y);
+	void getPosition(double *x, double *y);
+	double getLife();
+	double getBattery();
+	void disBattery(double value);
+	bool getShotPosition(int index, double *x, double *y);
+	void setShotFlag(int index, bool flag);
+	void setBatteryPower();
 	/*
-	void SetShotFlag(int index, bool flag);
 	void SetDamageFlag();
 	bool GetDamageFlag();
 	*/

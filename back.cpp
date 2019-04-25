@@ -6,7 +6,8 @@ BACK::BACK()
 {
 	gh = LoadGraph("image/Back/back_factory.png");
 
-	x = y = 0;
+	x = 0;
+	y = -UI_HEIGHT;
 
 	for (int i = 0; i < HOSE_MAX_NUM; i++)
 	{
@@ -71,7 +72,6 @@ void BACK::GetHosePosition(int index, double *x,double *y)
 {
 	*x = this->hose[index].x + this->hose[index].imageWidth / 2;
 	*y = this->hose[index].y + 60;
-	printfDx("Ghose[%d]x = %f\n", index, hose[index].x);
 }
 
 /**
