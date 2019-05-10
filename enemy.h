@@ -57,7 +57,6 @@ private:
 private:
 	BACK *back;
 private:
-	void adPosition();
 	void Move();
 	void Shot();
 	void Draw();
@@ -68,7 +67,7 @@ public:
 		int in_time, int stop_time, int shot_time, int out_time,
 		double x, double y, int speed, int hp, int item);
 	~ENEMY();
-	void getPosition();
+	void getPosition(double *x, double *y);
 	void setShotFlag();
 	bool getDeadFlag();
 	void setDeadFlag();

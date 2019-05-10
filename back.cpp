@@ -6,15 +6,16 @@ BACK::BACK()
 {
 	gh = LoadGraph("image/Back/back_factory.png");
 
-	x = y = 0;
+	x = 0;
+	y = -UI_HEIGHT;
 
 	for (int i = 0; i < HOSE_MAX_NUM; i++)
 	{
-		hose[i].Handle = LoadGraph("image/Back/hose_2.png");
+		hose[i].gh = LoadGraph("image/Back/hose_2.png");
 
-		GetGraphSize(hose[i].Handle, &hose[i].imageWidth, &hose[i].imageHeight);
+		GetGraphSize(hose[i].gh, &hose[i].width, &hose[i].height);
 
-		hose[i].x = (SCREEN_WIDTH - hose[i].imageWidth) * (i + 1) / HOSE_MAX_NUM - hose[i].imageWidth;
+		hose[i].x = (SCREEN_WIDTH - hose[i].width) * (i + 1) / HOSE_MAX_NUM - hose[i].width;
 		hose[i].y = 35;
 
 		hose[i].count = 0;
@@ -47,7 +48,7 @@ void BACK::Move()
 			hose[i].count++;
 			if (hose[i].count == 10) { hose[i].moveflag = false; }
 		}
-		else if (hose[i].x < (SCREEN_WIDTH - hose[i].imageWidth - MARGIN) && !hose[i].moveflag) 
+		else if (hose[i].x < (SCREEN_WIDTH - hose[i].width - MARGIN) && !hose[i].moveflag) 
 		{
 			hose[i].x += HOSE_MOVE_SPEED;
 		}
@@ -69,9 +70,8 @@ void BACK::Move()
 */
 void BACK::GetHosePosition(int index, double *x,double *y)
 {
-	*x = this->hose[index].x + this->hose[index].imageWidth / 2;
+	*x = this->hose[index].x + this->hose[index].width / 2;
 	*y = this->hose[index].y + 60;
-	printfDx("Ghose[%d]x = %f\n", index, hose[index].x);
 }
 
 /**

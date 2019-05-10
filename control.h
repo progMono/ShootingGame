@@ -7,6 +7,7 @@
 #include"player.h"
 #include"back.h"
 #include"enemy.h"
+#include"UI.h"
 
 class CONTROL
 {
@@ -19,6 +20,9 @@ private:
 
 	//敵クラス
 	ENEMY *enemy[ENEMY_NUM];
+
+	//UIクラス
+	UI *ui;
 private:
 	double ex, ey;
 	Chara hose[HOSE_MAX_NUM];
