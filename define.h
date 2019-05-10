@@ -56,12 +56,12 @@ extern int g_count;
 
 typedef struct _Chara
 {
-	int Handle;
+	int gh;
 	double x;
 	double y;
-	int imageWidth;
-	int imageHeight;
-	int existFlag;
+	int width;
+	int height;
+	int existflag;
 	int count;
 	bool moveflag;
 }Chara;

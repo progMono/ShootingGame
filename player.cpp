@@ -14,8 +14,7 @@ PLAYER::PLAYER()
 		MSG("エラー発生");
 	}
 
-	width = 34;
-	height = 41;
+	GetGraphSize(*gh, &width, &height);
 
 	x = 396 - width / 2;
 	y = 300 + height / 2;
@@ -52,6 +51,15 @@ PLAYER::PLAYER()
 	s_power = 6;
 
 	count = 0;
+
+	charger.gh = LoadGraph("image/Back/charger.png");
+
+	GetGraphSize(charger.gh, &charger.width, &charger.height);
+
+	charger.x = SCREEN_WIDTH / 2;
+	charger.y = SCREEN_HEIGHT - UI_HEIGHT - charger.height;
+
+	chargecount = 0;
 }
 
 /*
@@ -72,7 +80,7 @@ void PLAYER::Move()
 
 	if (mpix > 50)
 	{
-		disBattery(1);
+		changeBattery(-5);
 		mpix = 0;
 	}
 
@@ -88,6 +96,18 @@ void PLAYER::Save()
 	if (x > SCREEN_WIDTH - width / 2 - MARGIN) { x = SCREEN_WIDTH - width / 2 - MARGIN; }
 	if (y < height / 2 + 80) { y = height / 2 + 80; }
 	if (y > SCREEN_HEIGHT - height / 2 - UI_HEIGHT) { y = SCREEN_HEIGHT - height / 2 - UI_HEIGHT; }
+
+	if ((x > charger.x + charger.width / 4) && (x < charger.x + charger.width * 3 / 4) && (y > charger.y)) 
+	{
+		//チャージャーの中心
+		x = charger.x + charger.width / 2;
+		batteryflag = true;
+		chargeflag = true; 
+	}
+	else
+	{
+		chargeflag = false;
+	}
 }
 
 /*
@@ -95,6 +115,9 @@ void PLAYER::Save()
 */
 void PLAYER::Draw()
 {
+	//バッテリーの描画
+	DrawGraph(charger.x, charger.y, charger.gh, TRUE);
+
 	//弾描画
 	for (int i = 0; i < PSHOT_NUM; ++i)
 	{
@@ -144,7 +167,7 @@ void PLAYER::Draw()
 */
 void PLAYER::Shot()
 {
-	if (!damageflag)
+	if (!damageflag && !chargeflag)
 	{
 		//キーが押されてて，かつ，6ループに一回発射
 		if (CheckHitKey(KEY_INPUT_Z) == 1 && count % s_power == 0)
@@ -156,7 +179,8 @@ void PLAYER::Shot()
 					shot[i].flag = true;
 					shot[i].x = x;
 					shot[i].y = y;
-					disBattery(0.5);
+					batteryflag = true;
+					changeBattery(-0.5);
 					break;
 				}
 			}
@@ -172,6 +196,18 @@ void PLAYER::Shot()
 			if (shot[i].y < -10) { shot[i].flag = false; }
 		}
 	}
+}
+
+void PLAYER::Fix()
+{
+	if (chargeflag && chargecount>=50)
+	{
+		changeBattery(5);
+		mpix = 0;
+		chargecount = 0; 
+	}
+	
+	chargecount++;
 }
 
 /*
@@ -196,13 +232,15 @@ double PLAYER::getBattery()
 	return battery;
 }
 
-void PLAYER::disBattery(double value)
+void PLAYER::changeBattery(double value)
 {
 	if (batteryflag)
 	{
-		if (battery > 0)
-			battery -= value;
-		else if (battery <= 0)
+		if (battery >= 0 && battery <= 100)
+			battery += value;
+		if (battery >= 100)
+			battery = 100;
+		if (battery <= 0)
 			battery = 0;
 	}
 }
@@ -272,6 +310,7 @@ void PLAYER::setBatteryPower()
 		move_speed = PLAYER_MOVE_SPEED * 1.1 / 10;
 	}
 }
+
 /*
 * PLAYER クラスの管理関数
 */
@@ -283,6 +322,7 @@ void PLAYER::All()
 		Move();
 	}
 	setBatteryPower();
+	Fix();
 	Shot();
 	Draw();
 
