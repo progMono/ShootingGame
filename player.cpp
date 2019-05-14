@@ -52,7 +52,7 @@ PLAYER::PLAYER()
 
 	count = 0;
 
-	charger.gh = LoadGraph("image/Back/charger.png");
+	charger.gh = LoadGraph("image/Player/UI/charger.png");
 
 	GetGraphSize(charger.gh, &charger.width, &charger.height);
 
